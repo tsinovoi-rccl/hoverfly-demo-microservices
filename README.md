@@ -5,16 +5,16 @@ User Guide: Hoverfly Demo utilizing "Cinema" microservices
 
 Setup and Installation:
 1. Download the "Cinema" microservices project from GitHub
-git clone https://github.com/mmorejon/microservices-docker-go-mongodb.git
+`git clone https://github.com/mmorejon/microservices-docker-go-mongodb.git`
 
 2. Setup and Install "Cinema"
-mkdir microservices-docker-go-mongodb/
-cd microservices-docker-go-mongodb/
+`mkdir microservices-docker-go-mongodb/`
+`cd microservices-docker-go-mongodb/`
 - Add this line to "hosts" database file: 127.0.0.1   movies.local bookings.local users.local showtimes.local
 
 3. Ensure Docker is up and running and execute the compose command
-docker-compose up -d
-docker container ls
+`docker-compose up -d`
+`docker container ls`
 
 4. Docker should return a similar list:
 CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                      NAMES
