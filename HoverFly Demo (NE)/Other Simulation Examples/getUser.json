@@ -1,0 +1,77 @@
+{
+	"data": {
+		"pairs": [
+			{
+				"request": {
+					"path": [
+						{
+							"matcher": "exact",
+							"value": "/key/value/name/nikolai/lastname/efseaff/occupation/bozo"
+						}
+					],
+					"method": [
+						{
+							"matcher": "exact",
+							"value": "GET"
+						}
+					],
+					"destination": [
+						{
+							"matcher": "exact",
+							"value": "echo.jsontest.com"
+						}
+					],
+					"scheme": [
+						{
+							"matcher": "exact",
+							"value": "http"
+						}
+					],
+					"body": [
+						{
+							"matcher": "exact",
+							"value": ""
+						}
+					]
+				},
+				"response": {
+					"status": 200,
+					"body": "{\n   \"occupation\": \"bozo\",\n   \"name\": \"nikolai\",\n   \"lastname\": \"efseaff\",\n   \"key\": \"value\"\n}\n",
+					"encodedBody": false,
+					"headers": {
+						"Access-Control-Allow-Origin": [
+							"*"
+						],
+						"Content-Length": [
+							"95"
+						],
+						"Content-Type": [
+							"application/json; charset=ISO-8859-1"
+						],
+						"Date": [
+							"Fri, 03 Aug 2018 21:56:37 GMT"
+						],
+						"Hoverfly": [
+							"Was-Here"
+						],
+						"Server": [
+							"Google Frontend"
+						],
+						"X-Cloud-Trace-Context": [
+							"dad56f29b27a5153db36ded913d824d3"
+						]
+					},
+					"templated": false
+				}
+			}
+		],
+		"globalActions": {
+			"delays": []
+		}
+	},
+	"meta": {
+		"schemaVersion": "v5",
+		"hoverflyVersion": "v0.17.2",
+		"timeExported": "2018-08-03T17:57:23-04:00"
+	}
+}

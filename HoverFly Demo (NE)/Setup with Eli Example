@@ -1,0 +1,218 @@
+Setup with Eli Example
+[8/10/18, 5:53:22 PM] Eli Tsinovoi: https://github.com/mmorejon/microservices-docker-go-mongodb
+[8/10/18, 6:00:33 PM] Eli Tsinovoi: /etc/hosts
+[8/10/18, 6:00:52 PM] Eli Tsinovoi: subl
+
+Last login: Fri Aug 10 17:39:10 on ttys000
+USC02V274NHTDD:~ efseani$ hoverctl start
+Target Hoverfly is already running 
+
+Run `hoverctl stop -t local` to stop it
+USC02V274NHTDD:~ efseani$ hoverctl stop
+Hoverfly has been stopped
+USC02V274NHTDD:~ efseani$ hoverctl import demoTest.json
+Could not connect to Hoverfly at localhost:8888
+USC02V274NHTDD:~ efseani$ hoverctl start
+Hoverfly is now running
+
++------------+------+
+| admin-port | 8888 |
+| proxy-port | 8500 |
++------------+------+
+USC02V274NHTDD:~ efseani$ hoverctl import demoTest.json
+Successfully imported simulation from demoTest.json
+USC02V274NHTDD:~ efseani$ curl --proxy localhost:8500 http://echo.jsontest.com/employee/nikolai/occupation/staff
+{
+   "occupation": "staff",
+   "employee": "nikolai"
+}
+USC02V274NHTDD:~ efseani$ git clone https://github.com/mmorejon/microservices-docker-go-mongodb.git
+Cloning into 'microservices-docker-go-mongodb'...
+remote: Counting objects: 381, done.
+remote: Total 381 (delta 0), reused 0 (delta 0), pack-reused 381
+Receiving objects: 100% (381/381), 3.03 MiB | 12.57 MiB/s, done.
+Resolving deltas: 100% (149/149), done.
+USC02V274NHTDD:~ efseani$ mkdir microservices-docker-go-mongodb/
+mkdir: microservices-docker-go-mongodb/: File exists
+USC02V274NHTDD:~ efseani$ cd microservices-docker-go-mongodb/
+USC02V274NHTDD:microservices-docker-go-mongodb efseani$ ls 
+README.md		bookings		movies			users
+backup			docker-compose.yml	showtimes
+USC02V274NHTDD:microservices-docker-go-mongodb efseani$ docker-compose up -d
+ERROR: Couldn't connect to Docker daemon. You might need to start Docker for Mac.
+USC02V274NHTDD:microservices-docker-go-mongodb efseani$ docker-compose up -d
+Creating network "microservices-docker-go-mongodb_default" with the default driver
+Pulling proxy (jwilder/nginx-proxy:)...
+latest: Pulling from jwilder/nginx-proxy
+f2aa67a397c4: Pull complete
+3c091c23e29d: Pull complete
+4a99993b8636: Pull complete
+75850836e146: Pull complete
+62836acd3c37: Pull complete
+5d70eba6906f: Pull complete
+fe86498801b9: Pull complete
+8ec6361273ec: Pull complete
+4aa76dcb8305: Pull complete
+921c7f44ab5e: Pull complete
+Digest: sha256:4e6bae63dab0c4d3ebf3bbecbf5cd2700ca99db02e155efaa6e28baa14033bc8
+Status: Downloaded newer image for jwilder/nginx-proxy:latest
+Pulling db (mongo:3.3)...
+3.3: Pulling from library/mongo
+386a066cd84a: Pull complete
+524267bc200a: Pull complete
+476d61c7c43a: Pull complete
+0750d0e28b90: Pull complete
+c2a78c5fad8e: Pull complete
+14474a0ebc1b: Pull complete
+0b42389b77aa: Pull complete
+de77b4fcbe14: Pull complete
+975aabf0feac: Pull complete
+Digest: sha256:08a90c3d7c40aca81f234f0b2aaeed0254054b1c6705087b10da1c1901d07b5d
+Status: Downloaded newer image for mongo:3.3
+Building users
+Step 1/8 : FROM golang:1.6
+1.6: Pulling from library/golang
+5040bd298390: Pull complete
+fce5728aad85: Pull complete
+76610ec20bf5: Pull complete
+86b681f75ff6: Pull complete
+77855d2f51f6: Pull complete
+b989296b493d: Pull complete
+2d403c19702e: Pull complete
+Digest: sha256:29116f0f6cd2ef6a882639ee222ccb6e2f6d88a1d97d461aaf4c4a2622d252a1
+Status: Downloaded newer image for golang:1.6
+ ---> 63330314bb46
+Step 2/8 : RUN go get gopkg.in/mgo.v2
+ ---> Running in bc6b3d34dad8
+Removing intermediate container bc6b3d34dad8
+ ---> b92e0c0cd1dc
+Step 3/8 : RUN go get github.com/gorilla/mux
+ ---> Running in ebb60b4dd699
+Removing intermediate container ebb60b4dd699
+ ---> 6d9ba01ee6e6
+Step 4/8 : ADD . /go/src/github.com/mmorejon/cinema/users
+ ---> b1a34f17b1ce
+Step 5/8 : WORKDIR /go/src/github.com/mmorejon/cinema/users
+ ---> Running in a84e5a7c78b0
+Removing intermediate container a84e5a7c78b0
+ ---> a60ba19a325d
+Step 6/8 : RUN go install github.com/mmorejon/cinema/users
+ ---> Running in 3f1fa7ee8221
+Removing intermediate container 3f1fa7ee8221
+ ---> caca12d16a93
+Step 7/8 : ENTRYPOINT /go/bin/users
+ ---> Running in 0f0992961ac0
+Removing intermediate container 0f0992961ac0
+ ---> 6af4505ed525
+Step 8/8 : EXPOSE 8080
+ ---> Running in 23ebaed4d164
+Removing intermediate container 23ebaed4d164
+ ---> fffa54117a15
+Successfully built fffa54117a15
+Successfully tagged cinema/users:latest
+WARNING: Image for service users was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Building showtimes
+Step 1/8 : FROM golang:1.6
+ ---> 63330314bb46
+Step 2/8 : RUN go get gopkg.in/mgo.v2
+ ---> Using cache
+ ---> b92e0c0cd1dc
+Step 3/8 : RUN go get github.com/gorilla/mux
+ ---> Using cache
+ ---> 6d9ba01ee6e6
+Step 4/8 : ADD . /go/src/github.com/mmorejon/cinema/showtimes
+ ---> f3d59b7c22ae
+Step 5/8 : WORKDIR /go/src/github.com/mmorejon/cinema/showtimes
+ ---> Running in d005ee684d6e
+Removing intermediate container d005ee684d6e
+ ---> d2f64a98609c
+Step 6/8 : RUN go install github.com/mmorejon/cinema/showtimes
+ ---> Running in ad70ffd0f2de
+Removing intermediate container ad70ffd0f2de
+ ---> af8d24ab7686
+Step 7/8 : ENTRYPOINT /go/bin/showtimes
+ ---> Running in 94881c211549
+Removing intermediate container 94881c211549
+ ---> 7e055a18be64
+Step 8/8 : EXPOSE 8080
+ ---> Running in 53c8c55ce4ac
+Removing intermediate container 53c8c55ce4ac
+ ---> 7560f40d5221
+Successfully built 7560f40d5221
+Successfully tagged cinema/showtimes:latest
+WARNING: Image for service showtimes was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Building bookings
+Step 1/8 : FROM golang:1.6
+ ---> 63330314bb46
+Step 2/8 : RUN go get gopkg.in/mgo.v2
+ ---> Using cache
+ ---> b92e0c0cd1dc
+Step 3/8 : RUN go get github.com/gorilla/mux
+ ---> Using cache
+ ---> 6d9ba01ee6e6
+Step 4/8 : ADD . /go/src/github.com/mmorejon/cinema/bookings
+ ---> ce5fb36728a0
+Step 5/8 : WORKDIR /go/src/github.com/mmorejon/cinema/bookings
+ ---> Running in a605212c3748
+Removing intermediate container a605212c3748
+ ---> 48a28f32e7e9
+Step 6/8 : RUN go install github.com/mmorejon/cinema/bookings
+ ---> Running in b978a4fa050b
+Removing intermediate container b978a4fa050b
+ ---> c58cd6cf696f
+Step 7/8 : ENTRYPOINT /go/bin/bookings
+ ---> Running in d5955e87f46d
+Removing intermediate container d5955e87f46d
+ ---> 13c3ee056f3e
+Step 8/8 : EXPOSE 8080
+ ---> Running in 7b38be6a729d
+Removing intermediate container 7b38be6a729d
+ ---> 46f36ed29830
+Successfully built 46f36ed29830
+Successfully tagged cinema/bookings:latest
+WARNING: Image for service bookings was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Building movies
+Step 1/8 : FROM golang:1.6
+ ---> 63330314bb46
+Step 2/8 : RUN go get gopkg.in/mgo.v2
+ ---> Using cache
+ ---> b92e0c0cd1dc
+Step 3/8 : RUN go get github.com/gorilla/mux
+ ---> Using cache
+ ---> 6d9ba01ee6e6
+Step 4/8 : ADD . /go/src/github.com/mmorejon/cinema/movies
+ ---> bc350337d806
+Step 5/8 : WORKDIR /go/src/github.com/mmorejon/cinema/movies
+ ---> Running in eb38db503e85
+Removing intermediate container eb38db503e85
+ ---> 62cc2400427b
+Step 6/8 : RUN go install github.com/mmorejon/cinema/movies
+ ---> Running in f036c5c17571
+Removing intermediate container f036c5c17571
+ ---> dc6d7104b50f
+Step 7/8 : ENTRYPOINT /go/bin/movies
+ ---> Running in 014b87ab8965
+Removing intermediate container 014b87ab8965
+ ---> ad55fbf2a934
+Step 8/8 : EXPOSE 8080
+ ---> Running in 24d085b81850
+Removing intermediate container 24d085b81850
+ ---> c033d9ceb5c1
+Successfully built c033d9ceb5c1
+Successfully tagged cinema/movies:latest
+WARNING: Image for service movies was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Creating cinema-db          ... done
+Creating cinema-nginx-proxy ... done
+Creating cinema-movies      ... done
+Creating cinema-bookings    ... done
+Creating cinema-showtimes   ... done
+Creating cinema-users       ... done
+USC02V274NHTDD:microservices-docker-go-mongodb efseani$ docker ps
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                      NAMES
+ce2acde9c7c0        cinema/users          "/bin/sh -c /go/bin/…"   5 minutes ago       Up 5 minutes        8080/tcp                   cinema-users
+132a9dc70dae        cinema/showtimes      "/bin/sh -c /go/bin/…"   5 minutes ago       Up 5 minutes        8080/tcp                   cinema-showtimes
+216f4b43c958        cinema/bookings       "/bin/sh -c /go/bin/…"   5 minutes ago       Up 5 minutes        8080/tcp                   cinema-bookings
+70c83dba73f1        cinema/movies         "/bin/sh -c /go/bin/…"   5 minutes ago       Up 5 minutes        8080/tcp                   cinema-movies
+d6fa443af7f4        mongo:3.3             "/entrypoint.sh mong…"   5 minutes ago       Up 5 minutes        0.0.0.0:27017->27017/tcp   cinema-db
+ac4bc47c0e3f        jwilder/nginx-proxy   "/app/docker-entrypo…"   5 minutes ago       Up 5 minutes        0.0.0.0:80->80/tcp         cinema-nginx-proxy
+USC02V274NHTDD:microservices-docker-go-mongodb efseani$ 

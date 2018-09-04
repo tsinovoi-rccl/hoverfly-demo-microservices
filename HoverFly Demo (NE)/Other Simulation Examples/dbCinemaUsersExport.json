@@ -1,0 +1,80 @@
+{
+	"data": {
+		"pairs": [
+			{
+				"request": {
+					"path": [
+						{
+							"matcher": "exact",
+							"value": "/users"
+						}
+					],
+					"method": [
+						{
+							"matcher": "exact",
+							"value": "GET"
+						}
+					],
+					"destination": [
+						{
+							"matcher": "exact",
+							"value": "users.local"
+						}
+					],
+					"scheme": [
+						{
+							"matcher": "exact",
+							"value": "http"
+						}
+					],
+					"body": [
+						{
+							"matcher": "exact",
+							"value": ""
+						}
+					]
+				},
+				"response": {
+					"status": 200,
+					"body": "{\"data\":[{\"id\":\"57b378da202bba0005a61b87\",\"name\":\"Manuel\",\"lastname\":\"Morejón\"},{\"id\":\"57b37929202bba0005a61b89\",\"name\":\"Cristina\",\"lastname\":\"Cruz\"},{\"id\":\"57b37904202bba0005a61b88\",\"name\":\"Ramón\",\"lastname\":\"Cabrera\"}]}",
+					"encodedBody": false,
+					"headers": {
+						"Connection": [
+							"keep-alive"
+						],
+						"Content-Length": [
+							"223"
+						],
+						"Content-Type": [
+							"application/json"
+						],
+						"Date": [
+							"Sat, 01 Sep 2018 17:16:37 GMT"
+						],
+						"Hoverfly": [
+							"Was-Here"
+						],
+						"Server": [
+							"nginx/1.13.12"
+						]
+					},
+					"templated": false
+				}
+			}
+		],
+		"globalActions": {
+			"delays": [
+				{
+					"urlPattern": "users\\.local\\/users",
+					"httpMethod": "",
+					"delay": 5000
+				}
+			]
+		}
+	},
+	"meta": {
+		"schemaVersion": "v5",
+		"hoverflyVersion": "v0.17.2",
+		"timeExported": "2018-09-01T13:17:00-04:00"
+	}
+}
